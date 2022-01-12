@@ -37,7 +37,11 @@ public class PageFactoryManager {
         return new ProductPage(driver);
     }
 
-    public SignPage getSignPage() {
-        return new SignPage(driver);
+    public LoginPage getLoginPage() {
+        return new LoginPage(driver);
+    }
+
+    public AccountPage getAccountPage() {
+        return new AccountPage(driver);
     }
 }

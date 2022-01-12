@@ -12,7 +12,7 @@ public class SearchPage extends BasePage {
     private List<WebElement> resultTitleSearch;
 
     @FindBy(xpath = "//h3[text()='No exact matches found']")
-    private WebElement negativeResult;
+    private WebElement noExactMatchesMessage;
 
     @FindBy(xpath = "//input[@aria-label='Minimum Value in $']")
     private WebElement fieldPrice;
@@ -21,22 +21,22 @@ public class SearchPage extends BasePage {
     private List<WebElement> resultFind;
 
     @FindBy(xpath = "//span[text()='Tomato']")
-    private WebElement commonName;
+    private List<WebElement> relatedSearch;
 
     public SearchPage(WebDriver driver) {
         super(driver);
     }
 
-    public List<WebElement> getResultTitleSearch() {
+    public List<WebElement> getSearchResultTitle() {
         return resultTitleSearch;
     }
 
-    public void isNegativeResultVisible() {
-        negativeResult.isDisplayed();
+    public void isNoExactMatchesMessageVisible() {
+        noExactMatchesMessage.isDisplayed();
     }
 
-    public void inputFieldPrice(String text) {
-        fieldPrice.sendKeys(text, Keys.ENTER);
+    public void setMinimumPrice(String price) {
+        fieldPrice.sendKeys(price, Keys.ENTER);
     }
 
     public boolean ErrorInputPriceValue() {
@@ -45,7 +45,15 @@ public class SearchPage extends BasePage {
         return expected;
     }
 
-    public void setCommonName() {
-        commonName.click();
+    public void setRelatedSearch(String text) {
+        String elementText;
+        for (WebElement element : relatedSearch ) {
+            elementText = element.getText();
+            System.out.println(elementText);
+            if (elementText.contains(text)){
+                element.click();
+                continue;
+            }
+        }
     }
 }

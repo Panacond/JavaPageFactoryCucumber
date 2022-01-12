@@ -30,7 +30,7 @@ public class XiaomiVacuumCleanersPage extends BasePage {
     @FindBy(xpath = "//div[@class='s-item__wrapper clearfix']")
     private WebElement firstElementList;
 
-    @FindBy(xpath = "//input[@aria-label='Search for anything']")
+    @FindBy(xpath = "//input[@placeholder='Search for anything']")
     private WebElement searchField;
 
     @FindBy(xpath = "//h3[@class='s-item__title']")
@@ -75,6 +75,5 @@ public class XiaomiVacuumCleanersPage extends BasePage {
     public List<WebElement> getListResultTitle() {
         return listResultTitle;
     }
-
 
 }

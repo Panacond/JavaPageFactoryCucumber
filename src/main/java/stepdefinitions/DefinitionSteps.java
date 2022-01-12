@@ -1,6 +1,5 @@
 package stepdefinitions;
 
-
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
@@ -13,16 +12,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import pages.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
-import static java.lang.Thread.sleep;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class DefinitionSteps {
 
-    private static final long DEFAULT_TIMEOUT = 2000;
+    private static final long DEFAULT_TIMEOUT = 100;
 
     WebDriver driver;
     HomePage homePage;
@@ -31,7 +28,8 @@ public class DefinitionSteps {
     XiaomiPage xiaomiPage;
     XiaomiVacuumCleanersPage xiaomiVacuumCleanersPage;
     ProductPage productPage;
-    SignPage signPage;
+    LoginPage loginPage;
+    AccountPage accountPage;
 
     PageFactoryManager pageFactoryManager;
 
@@ -43,21 +41,20 @@ public class DefinitionSteps {
         pageFactoryManager = new PageFactoryManager(driver);
     }
 
-    @And("User go to {string}")
+    @And("User opens {string} page")
     public void openPage(final String url) {
         homePage = pageFactoryManager.getHomePage();
         homePage.openHomePage(url);
     }
 
-    @And("User go to news page")
+    @And("User goes to news page")
     public void goNewsPage() {
         homePage = pageFactoryManager.getHomePage();
         homePage.goNewsPage();
-
     }
 
-    @Then("User see news list {int} items")
-    public void userSeeNewsListItems(int number) throws InterruptedException {
+    @Then("User sees news list items")
+    public void userSeeNewsListItems() {
         newsPage = pageFactoryManager.getNewsPage();
         newsPage.waitForAjaxToComplete(DEFAULT_TIMEOUT);
         newsPage.waitVisibilityOfElement(DEFAULT_TIMEOUT,newsPage.getElementNews());
@@ -68,18 +65,20 @@ public class DefinitionSteps {
 
     @After
     public void tearDown() {
-        driver.close();
+        for ( String element :new ArrayList<>(driver.getWindowHandles()) ) {
+            driver.switchTo().window(element).close();
+        }
+//        driver.close();
     }
 
-
-    @And("User enter into the search bar {string}")
+    @And("User enters into the search bar {string}")
     public void userEnterIntoTheSearchBarInput_text(String text) {
         homePage = pageFactoryManager.getHomePage();
         homePage.inputFieldSearch(text);
 
     }
 
-    @And("User press button search")
+    @And("User presses Search button")
     public void userPressButtonSearch() {
         homePage = pageFactoryManager.getHomePage();
         homePage.pressButtonSearch();
@@ -88,7 +87,8 @@ public class DefinitionSteps {
     @Then("User sees at least one item in the list containing {string}")
     public void userSeesAtLeastOneItemInTheListContainingResult_search(String text) {
         searchPage = pageFactoryManager.getSearchPage();
-        List<WebElement>listTitle = searchPage.getResultTitleSearch();
+        searchPage.waitForAjaxToComplete(DEFAULT_TIMEOUT);
+        List<WebElement>listTitle = searchPage.getSearchResultTitle();
         boolean excepted = false;
         for (WebElement element: listTitle ) {
             if (element.getText().contains(text))
@@ -98,37 +98,37 @@ public class DefinitionSteps {
         Assert.assertTrue(excepted);
     }
 
-    @And("User press button Xiaomi")
+    @And("User presses Xiaomi button")
     public void userPressButtonXiaomi() {
         homePage = pageFactoryManager.getHomePage();
         homePage.pressButtonXiaomi();
     }
 
-    @And("User press button vacuum cleaners")
+    @And("User presses Vacuum cleaners button")
     public void userPressButtonVacuumCleaners() {
         xiaomiPage = pageFactoryManager.getXiaomiPage();
         xiaomiPage.pressButtonVacuumCleaners();
     }
 
-    @And("User press button price")
+    @And("User presses Price button")
     public void userPressButtonPrice() {
         xiaomiVacuumCleanersPage = pageFactoryManager.getXiaomiVacuumCleanersPage();
         xiaomiVacuumCleanersPage.pressButtonPrice();
     }
 
-    @And("User select a price range one hundred fifty to three hundred fifty")
+    @And("User selects a price range 150-350")
     public void userSelectAPriceRange() {
         xiaomiVacuumCleanersPage = pageFactoryManager.getXiaomiVacuumCleanersPage();
         xiaomiVacuumCleanersPage.pressSelectPriceRange150_350();
     }
 
-    @Then("User check prices are in the range one hundred fifty to three hundred fifty")
-    public void userCheckPricesAreInTheRangeOneHundredFiftyToThreeHundredFifty() {
+    @Then("User checks prices in the range 150-350 {string}")
+    public void userCheckPricesAreInTheRange(String designations) {
         xiaomiVacuumCleanersPage = pageFactoryManager.getXiaomiVacuumCleanersPage();
         List<WebElement>listPrice = xiaomiVacuumCleanersPage.getCheckPrise();
         boolean excepted = true;
         for (WebElement element: listPrice ) {
-            String correctedText = element.getText().replace("$","");
+            String correctedText = element.getText().replace(designations,"");
             correctedText = correctedText.split(" to ")[0];
             double priceValue = Double.parseDouble(correctedText);
             if (priceValue < 150) excepted = false;
@@ -137,13 +137,13 @@ public class DefinitionSteps {
         Assert.assertTrue(excepted);
     }
 
-    @And("User press button view")
+    @And("User presses View button")
     public void userPressButtonView() {
         xiaomiVacuumCleanersPage = pageFactoryManager.getXiaomiVacuumCleanersPage();
         xiaomiVacuumCleanersPage.pressButtonView();
     }
 
-    @And("User press the button view as a list")
+    @And("User presses View as list button")
     public void userPressTheButtonViewAsAList() {
         xiaomiVacuumCleanersPage = pageFactoryManager.getXiaomiVacuumCleanersPage();
         xiaomiVacuumCleanersPage.pressButtonViewList();
@@ -161,32 +161,32 @@ public class DefinitionSteps {
         xiaomiVacuumCleanersPage.clickFirstElementList();
     }
 
-    @And("User press button Add to Watchlist")
+    @And("User presses Add to Watchlist button")
     public void userPressButtonAddToWatchlist() {
         productPage = pageFactoryManager.getProductPage();
         productPage.pressButtonAddToWatchlist();
     }
 
 
-    @Then("User view UserName")
-    public void userViewUserName() {
-        signPage = pageFactoryManager.getSignPage();
-        signPage.isFieldUserNameVisible();
+    @And("User inputs field {string}")
+    public void userInputUserName(String name) {
+        loginPage = pageFactoryManager.getLoginPage();
+        loginPage.inputFieldUserName(name);
     }
 
-    @Then("User get a negative result")
+    @Then("User gets negative result")
     public void userGetANegativeResult() {
         searchPage = pageFactoryManager.getSearchPage();
-        searchPage.isNegativeResultVisible();
+        searchPage.isNoExactMatchesMessageVisible();
     }
 
-    @And("User enter vacuum cleaners in the search bar {string} and press ENTER")
+    @And("User enters vacuum cleaners in the search bar {string} and presses ENTER")
     public void userEnterVacuumCleanersInTheSearchBarInput_textAndPressENTER(String text) {
         xiaomiVacuumCleanersPage = pageFactoryManager.getXiaomiVacuumCleanersPage();
         xiaomiVacuumCleanersPage.inputSearchField(text);
     }
 
-    @Then("check list items contain {string}")
+    @Then("User checks list items contain {string}")
     public void checkListItemsContainResult_search(String text) {
         xiaomiVacuumCleanersPage = pageFactoryManager.getXiaomiVacuumCleanersPage();
         List<WebElement>listTitle = xiaomiVacuumCleanersPage.getListResultTitle();
@@ -200,10 +200,10 @@ public class DefinitionSteps {
         Assert.assertTrue(excepted);
     }
 
-    @And("User input price {string}")
+    @And("User inputs minimum price {string}")
     public void userInputPriceInput_price(String text) {
         searchPage = pageFactoryManager.getSearchPage();
-        searchPage.inputFieldPrice(text);
+        searchPage.setMinimumPrice(text);
     }
 
     @Then("User sees an exception")
@@ -213,9 +213,73 @@ public class DefinitionSteps {
 
     }
 
-    @And("User select check button Tomato")
-    public void userSelectCheckButtonTomato() {
+    @And("User selects {string} check button")
+    public void userSelectCheckButton(String text) {
         searchPage = pageFactoryManager.getSearchPage();
-        searchPage.setCommonName();
+        searchPage.setRelatedSearch(text);
+    }
+
+    @And("User presses Continue button")
+    public void userPressesContinueButton() {
+        loginPage = pageFactoryManager.getLoginPage();
+        loginPage.pressButtonContinue();
+    }
+
+    @Then("User sees Error message")
+    public void userSeesErrorMessage() {
+        loginPage = pageFactoryManager.getLoginPage();
+        loginPage.waitForAjaxToComplete(DEFAULT_TIMEOUT);
+        loginPage.isErrorMessageVisible();
+    }
+
+    @And("User presses Continue with Google button")
+    public void userPressesContinueWithGoogleButton() {
+        loginPage = pageFactoryManager.getLoginPage();
+        loginPage.clickButtonContinueWithGoogle();
+        String URL = driver.getCurrentUrl();
+    }
+
+    @And("User inputs {string} mail")
+    public void userInputsUserMail(String mail) {
+        accountPage = pageFactoryManager.getAccountPage();
+        accountPage.inputFieldMail(mail);
+    }
+
+    @And("User presses Next Button")
+    public void userPressesNextButton() throws InterruptedException {
+        Thread.sleep(20);
+        accountPage = pageFactoryManager.getAccountPage();
+        accountPage.pressButtonNext();
+    }
+
+    @And("User inputs {string} password")
+    public void userInputsUserPasswordPassword(String password) {
+        accountPage = pageFactoryManager.getAccountPage();
+        accountPage.waitForAjaxToCompletePdp(20);
+        accountPage.inputFieldPassword(password);
+    }
+
+    @Then("User sees Error message incorrect password")
+    public void userSeesErrorMessageIncorrectPassword() {
+        accountPage = pageFactoryManager.getAccountPage();
+        accountPage.isErrorMassageVisible();
+    }
+
+    @And("User inputs {int}")
+    public void userInputs(int number) {
+        productPage = pageFactoryManager.getProductPage();
+        productPage.inputFieldNumberProduct(number);
+    }
+
+    @Then("User sees Error message incorrect numbers")
+    public void userSeesErrorMessageIncorrectNumbers() {
+        productPage = pageFactoryManager.getProductPage();
+        productPage.isErrorNumberMessage();
+    }
+
+    @And("User click on number field")
+    public void userClickOnNumberField() {
+        productPage = pageFactoryManager.getProductPage();
+        productPage.clickFieldNumberProduct();
     }
 }
