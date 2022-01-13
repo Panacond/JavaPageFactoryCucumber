@@ -30,6 +30,10 @@ public class HomePage extends BasePage {
         newsPage.click();
     }
 
+    public void isNewsPageVisible(){
+        newsPage.isDisplayed();
+    }
+
     public void inputFieldSearch(String text){
         fieldSearch.sendKeys(text);
     }

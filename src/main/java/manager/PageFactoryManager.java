@@ -40,8 +40,4 @@ public class PageFactoryManager {
     public LoginPage getLoginPage() {
         return new LoginPage(driver);
     }
-
-    public AccountPage getAccountPage() {
-        return new AccountPage(driver);
-    }
 }

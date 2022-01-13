@@ -30,6 +30,10 @@ public class LoginPage extends BasePage {
         fieldUserName.sendKeys(Name);
     }
 
+    public WebElement getFieldUserName(){
+        return fieldUserName;
+    }
+
     public void pressButtonContinue(){
         buttonContinue.click();
     }
