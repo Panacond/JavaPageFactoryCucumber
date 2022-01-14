@@ -6,7 +6,11 @@ import org.openqa.selenium.support.FindBy;
 
 public class XiaomiPage extends BasePage{
 
-    @FindBy(xpath = "//img[@src='https://i.ebayimg.com/thumbs/images/g/URIAAOSwN4BeQSNF/s-l225.webp']")
+    /**
+     * documentation/XiaomiPage.png
+     */
+
+    @FindBy(xpath = "//div[contains(text(),'Cleaners')]")
     private WebElement buttonVacuumCleaners;
 
     public XiaomiPage(WebDriver driver) {

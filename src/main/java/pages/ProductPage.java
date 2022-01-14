@@ -6,6 +6,10 @@ import org.openqa.selenium.support.FindBy;
 
 public class ProductPage extends BasePage {
 
+    /**
+     * documentation/ProductPage.png
+     */
+
     @FindBy(xpath = "//span[text()='Add to Watchlist']")
     private WebElement buttonAddToWatchlist;
 
@@ -19,7 +23,7 @@ public class ProductPage extends BasePage {
         super(driver);
     }
 
-    public void pressButtonAddToWatchlist() {
+    public void clickButtonAddToWatchlist() {
         buttonAddToWatchlist.click();
     }
 

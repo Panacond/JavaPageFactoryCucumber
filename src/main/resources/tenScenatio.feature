@@ -119,3 +119,4 @@ Feature: Check ten functions of the site
     Examples:
       | homePage              | inputText | relatedSearch | resultSearch |
       | https://www.ebay.com/ | cucumber  | Tomato        | Tomato       |
+      | https://www.ebay.com/ | cucumber  | Lettuce       | Lettuce      |

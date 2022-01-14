@@ -9,6 +9,10 @@ import java.util.List;
 
 public class XiaomiVacuumCleanersPage extends BasePage {
 
+    /**
+     * documentation/XiaomiVacuumCleanersPage.png
+     */
+
     @FindBy(xpath = "//span[text()='Price']")
     private WebElement buttonPrice;
 
@@ -40,11 +44,11 @@ public class XiaomiVacuumCleanersPage extends BasePage {
         super(driver);
     }
 
-    public void pressButtonPrice() {
+    public void clickButtonPrice() {
         buttonPrice.click();
     }
 
-    public void pressSelectPriceRange150_350() {
+    public void clickSelectPriceRange150_350() {
         selectPriceRange150_350.click();
     }
 
@@ -56,7 +60,7 @@ public class XiaomiVacuumCleanersPage extends BasePage {
         buttonView.click();
     }
 
-    public void pressButtonViewList() {
+    public void clickButtonViewList() {
         buttonViewList.click();
     }
 

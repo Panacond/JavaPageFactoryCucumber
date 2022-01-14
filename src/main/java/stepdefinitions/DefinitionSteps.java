@@ -12,7 +12,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import pages.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
@@ -64,23 +63,19 @@ public class DefinitionSteps {
 
     @After
     public void tearDown() {
-        for ( String element :new ArrayList<>(driver.getWindowHandles()) ) {
-            driver.switchTo().window(element).close();
-        }
-//        driver.close();
+        driver.close();
     }
 
     @And("User makes search by keyword {string}")
     public void userEnterIntoTheSearchBarInput_text(String text) {
         homePage = pageFactoryManager.getHomePage();
         homePage.inputFieldSearch(text);
-
     }
 
     @And("User clicks ‘Search’ button")
     public void userPressButtonSearch() {
         homePage = pageFactoryManager.getHomePage();
-        homePage.pressButtonSearch();
+        homePage.clickButtonSearch();
     }
 
     @Then("User checks that each item in results list contains keyword {string} visible")
@@ -100,7 +95,7 @@ public class DefinitionSteps {
     @And("User clicks ‘Xiaomi’ button")
     public void userPressButtonXiaomi() {
         homePage = pageFactoryManager.getHomePage();
-        homePage.pressButtonXiaomi();
+        homePage.clickButtonXiaomi();
     }
 
     @And("User clicks ‘Vacuum cleaners’ button")
@@ -112,13 +107,13 @@ public class DefinitionSteps {
     @And("User clicks ‘Price’ button")
     public void userPressButtonPrice() {
         xiaomiVacuumCleanersPage = pageFactoryManager.getXiaomiVacuumCleanersPage();
-        xiaomiVacuumCleanersPage.pressButtonPrice();
+        xiaomiVacuumCleanersPage.clickButtonPrice();
     }
 
     @And("User selects a price range 150-350")
     public void userSelectAPriceRange() {
         xiaomiVacuumCleanersPage = pageFactoryManager.getXiaomiVacuumCleanersPage();
-        xiaomiVacuumCleanersPage.pressSelectPriceRange150_350();
+        xiaomiVacuumCleanersPage.clickSelectPriceRange150_350();
     }
 
     @Then("User checks prices in the range 150-350 {string}")
@@ -145,7 +140,7 @@ public class DefinitionSteps {
     @And("User clicks ‘List view’ button")
     public void userPressTheButtonViewAsAList() {
         xiaomiVacuumCleanersPage = pageFactoryManager.getXiaomiVacuumCleanersPage();
-        xiaomiVacuumCleanersPage.pressButtonViewList();
+        xiaomiVacuumCleanersPage.clickButtonViewList();
     }
 
     @Then("User check view change a list of items visibility")
@@ -161,10 +156,9 @@ public class DefinitionSteps {
     }
 
     @And("User clicks ‘Add to Watchlist’ button")
-    public void userPressButtonAddToWatchlist() throws InterruptedException {
+    public void userPressButtonAddToWatchlist() {
         productPage = pageFactoryManager.getProductPage();
-        productPage.pressButtonAddToWatchlist();
-//        Thread.sleep(20000);
+        productPage.clickButtonAddToWatchlist();
     }
 
 
@@ -223,7 +217,7 @@ public class DefinitionSteps {
     @And("User clicks ‘Continue’ button")
     public void userPressesContinueButton() {
         loginPage = pageFactoryManager.getLoginPage();
-        loginPage.pressButtonContinue();
+        loginPage.clickButtonContinue();
     }
 
     @Then("User checks Error message")
@@ -231,12 +225,6 @@ public class DefinitionSteps {
         loginPage = pageFactoryManager.getLoginPage();
         loginPage.waitForAjaxToComplete(DEFAULT_TIMEOUT);
         loginPage.isErrorMessageVisible();
-    }
-
-    @And("User clicks 'Continue with Google' button")
-    public void userPressesContinueWithGoogleButton() {
-        loginPage = pageFactoryManager.getLoginPage();
-        loginPage.clickButtonContinueWithGoogle();
     }
 
     @And("User inputs value {int}")

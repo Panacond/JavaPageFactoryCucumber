@@ -6,6 +6,10 @@ import org.openqa.selenium.support.FindBy;
 
 public class NewsPage extends BasePage {
 
+    /**
+     * documentation/NewsPage.png
+     */
+
     @FindBy(xpath = "//div[@class='article-wrapper internal-article wide-ml-content animate']")
     private WebElement elementNews;
 

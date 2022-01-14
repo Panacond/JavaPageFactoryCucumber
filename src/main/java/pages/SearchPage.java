@@ -8,6 +8,11 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
 public class SearchPage extends BasePage {
+
+    /**
+     * documentation/SearchPage.png
+     */
+
     @FindBy(xpath = "//h3[@class='s-item__title']")
     private List<WebElement> resultTitleSearch;
 
@@ -15,12 +20,12 @@ public class SearchPage extends BasePage {
     private WebElement noExactMatchesMessage;
 
     @FindBy(xpath = "//input[@aria-label='Minimum Value in $']")
-    private WebElement fieldPrice;
+    private WebElement fieldMinPrice;
 
     @FindBy(xpath = "//div[@class='x-price__error']")
-    private List<WebElement> resultFind;
+    private List<WebElement> resultErrorPriceFind;
 
-    @FindBy(xpath = "//span[text()='Tomato']")
+    @FindBy(xpath = "//span[@class='cbx x-refine__multi-select-cbx']")
     private List<WebElement> relatedSearch;
 
     public SearchPage(WebDriver driver) {
@@ -36,19 +41,23 @@ public class SearchPage extends BasePage {
     }
 
     public void setMinimumPrice(String price) {
-        fieldPrice.sendKeys(price, Keys.ENTER);
+        fieldMinPrice.sendKeys(price, Keys.ENTER);
     }
 
     public boolean ErrorInputPriceValue() {
         boolean expected = true;
-        if (resultFind.size() == 1) expected = false;
+        if (resultErrorPriceFind.size() == 1) expected = false;
         return expected;
     }
 
     public void setRelatedSearch(String text) {
         String elementText;
         for (WebElement element : relatedSearch ) {
-            elementText = element.getText();
+            try {
+                elementText = element.getText();
+            } catch (Exception ex) {
+                elementText ="";
+            }
             System.out.println(elementText);
             if (elementText.contains(text)){
                 element.click();

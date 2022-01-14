@@ -6,6 +6,10 @@ import org.openqa.selenium.support.FindBy;
 
 public class HomePage extends BasePage {
 
+    /**
+     * documentation/HomePage.png
+     */
+
     @FindBy(xpath = "//a[@href='https://www.ebayinc.com/stories/news/']")
     private WebElement newsPage;
 
@@ -30,19 +34,15 @@ public class HomePage extends BasePage {
         newsPage.click();
     }
 
-    public void isNewsPageVisible(){
-        newsPage.isDisplayed();
-    }
-
     public void inputFieldSearch(String text){
         fieldSearch.sendKeys(text);
     }
 
-    public void pressButtonSearch(){
+    public void clickButtonSearch(){
         buttonSearch.click();
     }
 
-    public void pressButtonXiaomi(){
+    public void clickButtonXiaomi(){
         buttonXiaomi.click();
     }
 

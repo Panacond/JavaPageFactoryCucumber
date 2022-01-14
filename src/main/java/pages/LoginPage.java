@@ -6,6 +6,10 @@ import org.openqa.selenium.support.FindBy;
 
 public class LoginPage extends BasePage {
 
+    /**
+     * documentation/LoginPage.png
+     */
+
     @FindBy(xpath = "//input[@autocomplete='username']")
     private WebElement fieldUserName;
 
@@ -14,9 +18,6 @@ public class LoginPage extends BasePage {
 
     @FindBy(xpath = "//p[@id='errormsg']")
     private WebElement errorMessage;
-
-    @FindBy(xpath = "//button[@id='signin_ggl_btn']")
-    private WebElement  buttonContinueWithGoogle;
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -34,10 +35,7 @@ public class LoginPage extends BasePage {
         return fieldUserName;
     }
 
-    public void pressButtonContinue(){
+    public void clickButtonContinue(){
         buttonContinue.click();
-    }
-    public void clickButtonContinueWithGoogle(){
-        buttonContinueWithGoogle.click();
     }
 }
